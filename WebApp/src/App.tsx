@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //Componentes
-import Home from "./home";
-import NotFound from "./NotFound";
+import Home from "./components/home/home";
+import NotFound from "./components/notFound/NotFound";
 
 function App() {
 
