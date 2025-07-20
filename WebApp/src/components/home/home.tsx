@@ -47,11 +47,11 @@ export default function Home() {
         </div>
 
         {/* Panel derecho */}
-        <div className="flex-2 flex-col bg-[var(--gris2)] flex items-center justify-center relative">
+        <div className="flex-2 flex-col bg-[var(--gris2)] flex items-center justify-center relative pt-20">
           <img src="chicos.svg" className="w-[500px] z-10" />
 
           {/* CVs superpuestos */}
-          <div className="absolute top-20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[220px] h-auto z-0">
+          <div className="absolute top-35 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[220px] h-auto z-0 ">
             {["cv1.png", "cv2.png", "cv3.png"].map((src, i) => (
             <img
               key={i}
@@ -65,7 +65,9 @@ export default function Home() {
 
           </div>
           <h2 className="mt-20 text-2xl font-bold text-black">Crea el tuyo ¡Ahora!</h2>
-          <button className="bg-[var(--azul3)] mt-5 text-xl px-8 py-4 rounded-full hover:bg-blue-700 transition">Comenzar</button>
+          <a href="#seccion-plantillas">
+          <button className="bg-[var(--amarillo1)] mt-5 text-xl px-8 py-4 rounded-full hover:bg-[var(--azul3)] transition">Comenzar</button>
+          </a>
         </div>
       </div>
     </>
