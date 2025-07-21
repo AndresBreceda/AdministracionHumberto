@@ -32,7 +32,7 @@ export default function Home() {
     <>
       <Header />
 
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen" id="inicio">
         {/* Panel izquierdo */}
         <div className="flex-1 bg-[var(--azul2)] flex flex-col justify-center px-12">
           <h1 className="text-white text-3xl font-extrabold mb-6">

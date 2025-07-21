@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 
 
 interface CVCartProps {
@@ -8,6 +9,12 @@ interface CVCartProps {
 }
 
 export default function CV_cart({ texto, titulo, img, tags = [] }: CVCartProps) {
+    const navigate = useNavigate();
+
+  const IrAFormulario = () => {
+    navigate('/Formulario'); // Cambia '/ruta-destino' por la ruta a la que quieras ir
+  };
+
   return (
     <div className="relative group overflow-hidden rounded-xl shadow-md transition-transform hover:scale-105 hover:shadow-xl cursor-pointer bg-white">
 
@@ -37,7 +44,7 @@ export default function CV_cart({ texto, titulo, img, tags = [] }: CVCartProps) 
 
       {/* Botón Comenzar */}
       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button className="bg-white text-black font-semibold px-4 py-2 rounded shadow hover:bg-[var(--amarillo1)]">
+        <button onClick={IrAFormulario} className="bg-white text-black font-semibold px-4 py-2 rounded shadow hover:bg-[var(--amarillo1)]">
           LLenar con tu información
         </button>
       </div>
