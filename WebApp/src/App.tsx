@@ -6,6 +6,7 @@ import './App.css';
 import NotFound from "./components/notFound/NotFound";
 import CompletePage from './components/completePage/CompletePage';
 import Formulario from './components/Formulario/Formulario';
+import DescargarCv from './components/DescargarCv/DescargarCv';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           {/* Definir las rutas */}
           <Route path="/" element={<CompletePage />} />
           <Route path="/Formulario" element={<Formulario/>}/>
+          <Route path="/DescargarCv" element={<DescargarCv/>}/>
           {/* Ruta para páginas no encontradas */}
           <Route path="*" element={<NotFound />} />
         </Routes>

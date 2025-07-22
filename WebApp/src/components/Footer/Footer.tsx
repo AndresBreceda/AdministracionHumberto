@@ -2,7 +2,7 @@ import { Instagram, Facebook, Twitch } from "lucide-react";
 
 export default function Footer(){
     return(
-        <footer className="bg-[var(--gris1)] mt-10 pb-10 flex justify-between">
+        <footer className="bg-[var(--gris1)] pb-10 flex justify-between">
             
             <div>
                 <div className="text-white text-2xl font-extrabold pt-10 pl-10">
