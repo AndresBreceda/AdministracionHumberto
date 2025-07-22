@@ -20,7 +20,7 @@ export default function Formulario() {
           <p className="text-2xl font-bold leading-relaxed mb-10">
             Llena los campos y genera tu curriculum en segundos.
           </p>
-          <img src="/ruta/a/la/imagen.svg" alt="Ilustración" className="w-full max-w-xs mx-auto" />
+          <img src="/crear-cv.png" alt="Ilustración" className="w-full max-w-xs mx-auto" />
         </div>
 
         {/* Columna derecha con formulario */}
