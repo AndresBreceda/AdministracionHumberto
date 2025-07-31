@@ -24,69 +24,74 @@ export default function Formulario() {
         </div>
 
         {/* Columna derecha con formulario */}
-        <form className="bg-white p-8 rounded-lg shadow-md w-full lg:w-2/3 space-y-8">
-          {/* Información personal */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Información personal</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Nombre(s)" className="input" />
-              <input type="text" placeholder="Apellidos" className="input" />
-              <input type="text" placeholder="Teléfono" className="input" />
-              <input type="email" placeholder="Correo electrónico" className="input" />
-              <label className="text-[var(--azul3)] font-semibold">Sube tu foto:</label>
-              <input type="file" className="input col-span-2" />
-            </div>
+        <form id="formulario-cv" className="bg-white p-8 rounded-lg shadow-md w-full lg:w-2/3 space-y-8">
+        {/* <!-- Información personal --> */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Información personal</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" id="nombre" placeholder="Nombre(s)" className="input" />
+            <input type="text" id="apellidos" placeholder="Apellidos" className="input" />
+            <input type="text" id="telefono" placeholder="Teléfono" className="input" />
+            <input type="email" id="correo" placeholder="Correo electrónico" className="input" />
+            <label className="text-[var(--azul3)] font-semibold">Sube tu foto:</label>
+            <input type="file" id="foto" className="input col-span-2" />
           </div>
+        </div>
 
-          {/* Perfil profesional */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Perfil profesional</h2>
-            <textarea placeholder="Cuéntanos sobre ti" className="input w-full" rows="3" />
-          </div>
+        {/* <!-- Perfil profesional --> */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Perfil profesional</h2>
+          <textarea id="perfil" placeholder="Cuéntanos sobre ti" className="input w-full" rows="3"></textarea>
+        </div>
 
-          {/* Experiencia laboral */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Experiencia laboral</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Puesto" className="input" />
-              <input type="text" placeholder="Empresa" className="input" />
-              <input type="text" placeholder="Inicio" className="input" />
-              <input type="text" placeholder="Fin" className="input" />
-              <input type="text" placeholder="Descripción breve" className="input col-span-2" />
-            </div>
+        {/* <!-- Experiencia laboral --> */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Experiencia laboral</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" id="puesto" placeholder="Puesto" className="input" />
+            <input type="text" id="empresa" placeholder="Empresa" className="input" />
+            <input type="text" id="inicio-exp" placeholder="Inicio" className="input" />
+            <input type="text" id="fin-exp" placeholder="Fin" className="input" />
+            <input type="text" id="desc-exp" placeholder="Descripción breve" className="input col-span-2" />
           </div>
+        </div>
 
-          {/* Educación */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Educación</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Nivel de estudios" className="input" />
-              <input type="text" placeholder="Institución" className="input" />
-              <input type="text" placeholder="Inicio" className="input" />
-              <input type="text" placeholder="Fin" className="input" />
-              <input type="text" placeholder="Descripción breve (opcional)" className="input col-span-2" />
-            </div>
+        {/* <!-- Educación --> */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Educación</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" id="nivel-estudios" placeholder="Nivel de estudios" className="input" />
+            <input type="text" id="institucion" placeholder="Institución" className="input" />
+            <input type="text" id="inicio-edu" placeholder="Inicio" className="input" />
+            <input type="text" id="fin-edu" placeholder="Fin" className="input" />
+            <input type="text" id="desc-edu" placeholder="Descripción breve (opcional)" className="input col-span-2" />
           </div>
+        </div>
 
-          {/* Habilidades */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Habilidades</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Idioma" className="input" />
-              <input type="text" placeholder="Nivel" className="input" />
-            </div>
+        {/* <!-- Habilidades --> */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Habilidades</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" id="idioma" placeholder="Idioma" className="input" />
+            <input type="text" id="nivel-idioma" placeholder="Nivel" className="input" />
           </div>
+        </div>
 
-          {/* Botón */}
-          <div className="text-center">
-            <button onClick={DescargarCv} className="bg-[#F9A825] text-white font-semibold py-3 px-8 rounded-full hover:bg-yellow-600 transition">
-              Generar CV
-            </button>
-          </div>
-        </form>
+        {/* <!-- Botón --> */}
+        <div className="text-center">
+          <button onClick={DescargarCv}id="btnGenerar" type="button" className="bg-[#F9A825] text-white font-semibold py-3 px-8 rounded-full hover:bg-yellow-600 transition">
+            Generar CV
+          </button>
+        </div>
+      </form>
+
       </div>
 
       <Footer />
     </div>
   );
 }
+
+
+
+
