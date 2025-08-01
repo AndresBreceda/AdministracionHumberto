@@ -1,21 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const boton = document.getElementById("btnGenerar");
-  boton.addEventListener("click", generarPDF);
-});
+import { jsPDF } from "jspdf";
 
-async function imgBase64(url: any) {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File | null;
 }
 
-async function generarPDF() {
+export async function generarPDF1(data: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const azul = "#003049";
@@ -23,151 +30,88 @@ async function generarPDF() {
     const negro = "#000000";
     const blanco = "#ffffff";
 
-    // Fondo izquierdo gris
+    let fotoBase64 = "";
+    if (data.foto) {
+      const reader = new FileReader();
+      fotoBase64 = await new Promise<string>((resolve) => {
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(data.foto!);
+      });
+    }
+
     doc.setFillColor(gris);
     doc.rect(0, 0, 70, 297, "F");
 
-    // Foto circular
-    const palmer = await imgBase64("palmer.png");
-    doc.setFillColor(blanco);
-    doc.circle(35, 40, 25, "F");
-    doc.addImage(palmer, "PNG", 10, 15, 50, 50);
+    if (fotoBase64) {
+      doc.setFillColor(blanco);
+      doc.circle(35, 40, 25, "F");
+      doc.addImage(fotoBase64, "PNG", 10, 15, 50, 50);
+    }
 
-    // Nombre y puesto
     doc.setFontSize(20);
     doc.setTextColor(azul);
     doc.setFont("helvetica", "bold");
-    doc.text("Camila Torres", 80, 30);
+    doc.text(`${data.nombre} ${data.apellidos}`, 80, 30);
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(negro);
-    doc.text("Especialista en Mercadotecnia Digital", 80, 38);
+    doc.text(`${data.puesto} en ${data.empresa}`, 80, 38);
 
-    // Perfil personal
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(azul);
     doc.text("Perfil", 10, 80);
-
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(negro);
-    doc.text(
-      "Apasionada por las estrategias digitales, con experiencia en campañas de marketing, análisis de datos y posicionamiento de marca. Creativa, analítica y orientada a resultados.",
-      10,
-      85,
-      { maxWidth: 50 }
-    );
-
-    // Contacto
-    const iconTel = await imgBase64("img/telefono.png");
-    const iconCorreo = await imgBase64("img/correo.png");
-    const iconMapa = await imgBase64("img/mapa.png");
+    doc.text(data.perfil, 10, 85, { maxWidth: 50 });
 
     doc.setFont("helvetica", "bold");
     doc.setTextColor(azul);
     doc.text("Contacto", 10, 115);
-
     doc.setFont("helvetica", "normal");
     doc.setTextColor(negro);
-
-    doc.addImage(iconTel, "PNG", 10, 118, 5, 5);
-    doc.text("555-987-6543", 18, 122);
-
-    doc.addImage(iconCorreo, "PNG", 10, 124, 5, 5);
-    doc.text("camila.torres@marketingpro.com", 18, 128);
-
-    doc.addImage(iconMapa, "PNG", 10, 130, 5, 5);
-    doc.text("Guadalajara, México", 18, 134);
-
-    // Idiomas
-    const iconCheck = await imgBase64("img/exito.png");
+    doc.text(data.telefono, 10, 122);
+    doc.text(data.correo, 10, 128);
 
     doc.setFont("helvetica", "bold");
     doc.setTextColor(azul);
-    doc.text("Idiomas", 10, 155);
-
+    doc.text("Idiomas", 10, 140);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(negro);
+    doc.text(`${data.idioma} (${data.nivelIdioma})`, 10, 147);
 
-    doc.addImage(iconCheck, "PNG", 10, 158, 5, 5);
-    doc.text("Español (Nativo)", 18, 162);
-
-    doc.addImage(iconCheck, "PNG", 10, 164, 5, 5);
-    doc.text("Inglés (Intermedio)", 18, 168);
-
-    // Experiencia laboral
     doc.setFont("helvetica", "bold");
     doc.setTextColor(azul);
     doc.setFontSize(13);
     doc.text("Experiencia Laboral", 80, 60);
-
     doc.setFontSize(10);
     doc.setTextColor(negro);
     doc.setFont("helvetica", "normal");
-
-    doc.text("2021 - Presente", 80, 68);
+    doc.text(`${data.inicioExp} - ${data.finExp}`, 80, 68);
     doc.setFont("helvetica", "bold");
-    doc.text("Agencia Creativa MX", 120, 68);
+    doc.text(data.empresa, 120, 68);
     doc.setFont("helvetica", "normal");
-    doc.text("Gestión de campañas de marketing digital, SEO y análisis de métricas.", 80, 74, {
-      maxWidth: 110,
-    });
+    doc.text(data.descExp, 80, 74, { maxWidth: 110 });
 
-    doc.text("2019 - 2021", 80, 84);
-    doc.setFont("helvetica", "bold");
-    doc.text("MarketUp Solutions", 120, 84);
-    doc.setFont("helvetica", "normal");
-    doc.text("Estrategias de branding, publicidad en redes y marketing de contenidos.", 80, 90, {
-      maxWidth: 110,
-    });
-
-    // Educación
     doc.setFont("helvetica", "bold");
     doc.setTextColor(azul);
     doc.setFontSize(13);
-    doc.text("Educación", 80, 110);
-
+    doc.text("Educación", 80, 100);
     doc.setFontSize(10);
     doc.setTextColor(negro);
     doc.setFont("helvetica", "normal");
-
-    doc.text("2015 - 2019", 80, 118);
+    doc.text(`${data.inicioEdu} - ${data.finEdu}`, 80, 108);
     doc.setFont("helvetica", "bold");
-    doc.text("Universidad de Guadalajara", 110, 118);
+    doc.text(data.institucion, 110, 108);
     doc.setFont("helvetica", "normal");
-    doc.text("Licenciatura en Mercadotecnia", 80, 124);
+    doc.text(data.nivelEstudios, 80, 114);
+    if (data.descEdu) doc.text(data.descEdu, 80, 120, { maxWidth: 110 });
 
-    // Habilidades
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(azul);
-    doc.setFontSize(13);
-    doc.text("Habilidades", 80, 145);
-
-    doc.setFontSize(10);
-    doc.setTextColor(negro);
-    doc.setFont("helvetica", "normal");
-
-    const habilidades = [
-      "Google Ads",
-      "Meta Ads",
-      "SEO/SEM",
-      "Email Marketing",
-      "Canva",
-      "Google Analytics",
-      "CRM (HubSpot)",
-    ];
-    let y = 153;
-    for (let i = 0; i < habilidades.length; i += 2) {
-      doc.text(`• ${habilidades[i]}`, 80, y);
-      if (habilidades[i + 1]) doc.text(`• ${habilidades[i + 1]}`, 130, y);
-      y += 6;
-    }
-
-    doc.save("cv_mercadotecnia.pdf");
+    doc.save("curriculum.pdf");
   } catch (err) {
-    alert("Error al generar PDF. Mira la consola");
-    console.error(err);
+    console.error("Error al generar el PDF:", err);
+    alert("Hubo un error al generar el PDF.");
   }
 }

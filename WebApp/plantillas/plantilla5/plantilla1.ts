@@ -1,54 +1,50 @@
 // Espera al DOM
-document.addEventListener("DOMContentLoaded", () => {
-  const boton = document.getElementById("btnGenerar");
-  boton.addEventListener("click", generarPDF);
-});
+// Eliminado el listener del DOM, ya no necesario en integración con React
 
 // Convertir imagen a base64
-async function imgBase64(url) {
+async function imgBase64(url: string): Promise<string> {
   const response = await fetch(url);
   const blob = await response.blob();
 
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
+    reader.onloadend = () => resolve(reader.result as string);
     reader.readAsDataURL(blob);
   });
 }
 
-async function generarPDF() {
-  try{
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("p", "mm", "a4");
+export async function generarPDF5(datos: any) {
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "mm", "a4");
 
-  // Carga imágenes necesarias
-  const messi = await imgBase64("person.jpg");
-  const telImg = await imgBase64("img/telefono.png");
-  const correoImg = await imgBase64("img/correo.png");
-  const mapaImg = await imgBase64("img/mapa.png");
-  const socialImg = await imgBase64("img/social.png");
-  const traImg = await imgBase64("img/trabajar.png");
-  const virreImg = await imgBase64("img/virrete.png");
-  const exitImg = await imgBase64("img/exito.png");
-  const idiomaImg = await imgBase64("img/idiomas.png");
+    // Carga imágenes necesarias
+    const messi = await imgBase64("person.jpg");
+    const telImg = await imgBase64("img/telefono.png");
+    const correoImg = await imgBase64("img/correo.png");
+    const mapaImg = await imgBase64("img/mapa.png");
+    const socialImg = await imgBase64("img/social.png");
+    const traImg = await imgBase64("img/trabajar.png");
+    const virreImg = await imgBase64("img/virrete.png");
+    const exitImg = await imgBase64("img/exito.png");
+    const idiomaImg = await imgBase64("img/idiomas.png");
 
-  // Estilos
-  const azul = "#0a2c56";
-  const negro = "#000000";
-  const gris = "#666666";
+    // Estilos
+    const azul = "#0a2c56";
+    const negro = "#000000";
+    const gris = "#666666";
 
-  agregarFoto(doc, messi);
-  agregarEncabezado(doc, azul, negro);
-  agregarContacto(doc, telImg, correoImg, mapaImg, socialImg);
-  agregarSobreMi(doc, azul, gris);
-  agregarExperiencia(doc, azul, negro, traImg);
-  agregarEducacion(doc, azul, negro, virreImg);
-  agregarHabilidades(doc, azul, negro, exitImg);
-  agregarIdiomas(doc, azul, negro, idiomaImg);
+    agregarFoto(doc, messi);
+    agregarEncabezado(doc, azul, negro, datos);
+    agregarContacto(doc, telImg, correoImg, mapaImg, socialImg, datos);
+    agregarSobreMi(doc, azul, gris, datos);
+    agregarExperiencia(doc, azul, negro, traImg, datos);
+    agregarEducacion(doc, azul, negro, virreImg, datos);
+    agregarHabilidades(doc, azul, negro, exitImg, datos);
+    agregarIdiomas(doc, azul, negro, idiomaImg, datos);
 
-  doc.save("plantilla1.pdf");
-} catch (error) {
-    // Mostrar notificación en pantalla
+    doc.save("plantilla1.pdf");
+  } catch (error) {
     alert("Ocurrió un error al generar el PDF. Revisa la consola.");
     console.error("Error al generar PDF:", error);
   }
@@ -59,42 +55,42 @@ function agregarFoto(doc, imagen) {
   doc.addImage(imagen, "PNG", 130, 10, 60, 70);
 }
 
-function agregarEncabezado(doc, azul, negro) {
+function agregarEncabezado(doc, azul, negro, datos) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(28);
   doc.setTextColor(negro);
-  doc.text("ANDRADE", 20, 25);
-  doc.text("FRANCISCO", 20, 35);
+  doc.text(datos.apellidos.toUpperCase(), 20, 25);
+  doc.text(datos.nombre.toUpperCase(), 20, 35);
 
   doc.setFont("helvetica", "italic");
   doc.setFontSize(12);
   doc.setTextColor(azul);
-  doc.text("ESPECIALISTA EN MARKETING", 20, 45);
+  doc.text(datos.puesto || "ESPECIALISTA", 20, 45);
 }
 
-function agregarContacto(doc, telImg, correoImg, mapaImg, socialImg) {
+function agregarContacto(doc, telImg, correoImg, mapaImg, socialImg, datos) {
   let y = 48;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor("#000000");
 
   doc.addImage(telImg, "PNG", 20, y, 4, 4);
-  doc.text("(55) 1234-5678", 26, y + 3);
+  doc.text(datos.telefono || "Sin teléfono", 26, y + 3);
   y += 8;
 
   doc.addImage(correoImg, "PNG", 20, y, 4, 4);
-  doc.text("hola@sitioincreible.com", 26, y + 3);
+  doc.text(datos.correo || "Sin correo", 26, y + 3);
   y += 8;
 
   doc.addImage(mapaImg, "PNG", 20, y, 4, 4);
-  doc.text("Calle Cualquiera 123, Cualquier Lugar.", 26, y + 3);
+  doc.text(datos.ciudad || "Ciudad desconocida", 26, y + 3);
   y += 8;
 
   doc.addImage(socialImg, "PNG", 20, y, 4, 4);
-  doc.text("Instagram.com", 26, y + 3);
+  doc.text(datos.social || "", 26, y + 3);
 }
 
-function agregarSobreMi(doc, azul, gris) {
+function agregarSobreMi(doc, azul, gris, datos) {
   let y = 85;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
@@ -104,45 +100,24 @@ function agregarSobreMi(doc, azul, gris) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(gris);
-  const texto = "Analista de marketing apasionado y orientado a resultados con experiencia probada en el desarrollo e implementación de estrategias efectivas. Especializado en convertir datos complejos en soluciones creativas que impulsan el crecimiento empresarial. Listo para aportar mi experiencia analítica y enfoque centrado en el cliente para alcanzar el éxito en tu equipo de marketing.";
-  doc.text(texto, 20, y + 6, { maxWidth: 170 });
+  doc.text(datos.perfil || "Sin descripción", 20, y + 6, { maxWidth: 170 });
 }
 
-function agregarExperiencia(doc, azul, negro, traImg) {
+function agregarExperiencia(doc, azul, negro, traImg, datos) {
   let y = 115;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.setTextColor(azul);
 
-  // Imagen a la izquierda del texto
-  doc.addImage(traImg, "PNG", 20, y - 3, 8, 8); // pequeña y más alineada
-  doc.text("EXPERIENCIA", 30, y + 3); // más a la derecha para evitar empalme
+  doc.addImage(traImg, "PNG", 20, y - 3, 8, 8);
+  doc.text("EXPERIENCIA", 30, y + 3);
   y += 5;
 
   const experiencias = [
     {
-      periodo: "2020 - 2022 | ESTUDIO SOTO Y OCHOA",
-      puesto: "Especialista en Marketing Senior",
-      tareas: [
-        "Trabajar con ejecutivos para determinar presupuestos y objetivos.",
-        "Gestionar la rentabilidad y los resultados."
-      ]
-    },
-    {
-      periodo: "2018 - 2019 | EMPRESA ALTA PINTA",
-      puesto: "Especialista en Marketing Junior",
-      tareas: [
-        "Identificar las tendencias y los desafíos actuales.",
-        "Comunicarse con diferentes clientes."
-      ]
-    },
-    {
-      periodo: "2016 - 2018 | ESTUDIO SHONOS",
-      puesto: "Analista en Marketing",
-      tareas: [
-        "Analizar las tendencias y los desafíos actuales.",
-        "Comunicarse con diferentes clientes."
-      ]
+      periodo: `${datos.inicioExp} - ${datos.finExp}`,
+      puesto: datos.puesto,
+      tareas: [datos.descExp]
     }
   ];
 
@@ -164,26 +139,18 @@ function agregarExperiencia(doc, azul, negro, traImg) {
   });
 }
 
-function agregarEducacion(doc, azul, negro, virreImg) {
+function agregarEducacion(doc, azul, negro, virreImg, datos) {
   let y = 210;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.setTextColor(azul);
-  doc.addImage(virreImg, "PNG", 20, y - 4, 8, 8); // pequeña y más alineada
+  doc.addImage(virreImg, "PNG", 20, y - 4, 8, 8);
   doc.text("EDUCACIÓN", 30, y + 3);
 
   const educacion = [
     {
-      periodo: "2012 - 2016 | LICENCIATURA EN MARKETING",
-      institucion: "Egresado - Universidad Borcelle"
-    },
-    {
-      periodo: "2010 - 2014 | LICENCIATURA EN ADMINISTRACIÓN",
-      institucion: "Egresado - Universidad Borcelle"
-    },
-    {
-      periodo: "2004 - 2009 | TÉCNICO EN COMUNICACIÓN",
-      institucion: "Egresado - Secundaria Borcelle"
+      periodo: `${datos.inicioEdu} - ${datos.finEdu}`,
+      institucion: `${datos.nivelEstudios} - ${datos.institucion}`
     }
   ];
 
@@ -199,28 +166,27 @@ function agregarEducacion(doc, azul, negro, virreImg) {
   });
 }
 
-function agregarHabilidades(doc, azul, negro, exitImg) {
+function agregarHabilidades(doc, azul, negro, exitImg, datos) {
   let y = 253;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.setTextColor(azul);
-  doc.addImage(exitImg, "PNG", 20, y - 3, 8, 8); // pequeña y más alineada
+  doc.addImage(exitImg, "PNG", 20, y - 3, 8, 8);
   doc.text("HABILIDADES", 30, y + 3);
   y += 9.5;
-  
-  const habilidades = ["Resolución", "Comunicación", "Liderazgo", "Fotografía", "Inglés"];
-  
+
+  const habilidades = [datos.habilidad || "Comunicación"];
   doc.setFont("helvetica", "normal");
   doc.setTextColor(negro);
   doc.setFontSize(10);
-  
+
   habilidades.forEach(hab => {
     doc.text("• " + hab, 20, y);
     y += 5;
   });
 }
 
-function agregarIdiomas(doc, azul, negro, idiomaImg) {
+function agregarIdiomas(doc, azul, negro, idiomaImg, datos) {
   let x = 100;
   let y = 260;
   doc.setFont("helvetica", "bold");
@@ -229,7 +195,7 @@ function agregarIdiomas(doc, azul, negro, idiomaImg) {
   doc.addImage(idiomaImg, "PNG", x - 5, y - 5, 8, 8);
   doc.text("IDIOMAS", x + 5, y);
 
-  const idiomas = ["Español", "Inglés", "Frances"];
+  const idiomas = [`${datos.idioma} (${datos.nivelIdioma})`];
   y += 7;
   doc.setFont("helvetica", "normal");
   doc.setTextColor(negro);

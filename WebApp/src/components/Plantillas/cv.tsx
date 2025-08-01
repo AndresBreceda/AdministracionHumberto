@@ -6,14 +6,16 @@ interface CVCartProps {
   titulo: string;
   img: string;
   tags?: string[];
+  id: number
 }
 
-export default function CV_cart({ texto, titulo, img, tags = [] }: CVCartProps) {
+export default function CV_cart({ texto, titulo, img, tags = [], id }: CVCartProps) {
     const navigate = useNavigate();
 
-  const IrAFormulario = () => {
-    navigate('/Formulario'); // Cambia '/ruta-destino' por la ruta a la que quieras ir
-  };
+    const IrAFormulario = () => {
+      console.log(id);
+    navigate('/Formulario', { state: { plantillaId: id } });
+    };
 
   return (
     <div className="relative group overflow-hidden rounded-xl shadow-md transition-transform hover:scale-105 hover:shadow-xl cursor-pointer bg-white">

@@ -14,6 +14,7 @@ export default function Plantillas() {
             titulo="Colorido"
             texto="Un CV lleno de colores y creatividad"
             tags={['creativo', 'diseño', 'moderno']}
+            id={1}
           />
         </div>
 
@@ -23,6 +24,7 @@ export default function Plantillas() {
             titulo="Minimalista"
             texto="Un diseño limpio, elegante y profesional"
             tags={['simple', 'profesional', 'ordenado']}
+            id={2}
           />
         </div>
 
@@ -32,6 +34,7 @@ export default function Plantillas() {
             titulo="Corporativo"
             texto="Ideal para perfiles ejecutivos y serios"
             tags={['formal', 'ejecutivo', 'negocios']}
+            id={3}
           />
         </div>
 
@@ -41,6 +44,7 @@ export default function Plantillas() {
             titulo="Colorido"
             texto="Un CV lleno de colores y creatividad"
             tags={['creativo', 'diseño', 'moderno']}
+            id={4}
           />
         </div>
 
@@ -50,6 +54,7 @@ export default function Plantillas() {
             titulo="Minimalista"
             texto="Un diseño limpio, elegante y profesional"
             tags={['simple', 'profesional', 'ordenado']}
+            id={5}
           />
         </div>
 
@@ -59,6 +64,7 @@ export default function Plantillas() {
             titulo="Corporativo"
             texto="Ideal para perfiles ejecutivos y serios"
             tags={['formal', 'ejecutivo', 'negocios']}
+            id={6}
           />
         </div>
 
@@ -68,6 +74,7 @@ export default function Plantillas() {
             titulo="Colorido"
             texto="Un CV lleno de colores y creatividad"
             tags={['creativo', 'diseño', 'moderno']}
+            id={7}
           />
         </div>
 
@@ -77,6 +84,7 @@ export default function Plantillas() {
             titulo="Minimalista"
             texto="Un diseño limpio, elegante y profesional"
             tags={['simple', 'profesional', 'ordenado']}
+            id={8}
           />
         </div>
       </div>

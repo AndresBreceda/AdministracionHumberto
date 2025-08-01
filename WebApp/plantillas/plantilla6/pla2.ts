@@ -1,43 +1,49 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const boton = document.getElementById("btnGenerar");
-  boton.addEventListener("click", generarPDF);
-});
+import { jsPDF } from "jspdf";
 
-async function imgBase64(url) {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File | null;
 }
 
-async function generarPDF() {
+export async function generarPDF6(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
+    const { jsPDF } = window.jsPdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const verde = "#5d9795";
     const grisClaro = "#f0f0f0";
     const anchoPagina = 210;
 
-    // Fondo columnas
     doc.setFillColor(grisClaro);
     doc.rect(0, 0, 70, 297, "F");
 
     doc.setFillColor(verde);
     doc.rect(70, 0, anchoPagina - 70, 50, "F");
 
-    // Contenido
-    await agregarFoto(doc, 5, 1, 60, 60);
-    agregarEncabezado(doc, "ALAN LUNA", "Abogado Profesional", 80, 25);
-    agregarPerfil(doc, 10, 75);
-    await agregarContacto(doc, 10, 150);
-    agregarEducacion(doc, 80, 60);
-    agregarLenguajes(doc, 80, 106);
-    agregarHabilidades(doc, 80, 140);
-    agregarExperiencia(doc, 80, 195);
+    await agregarFoto(doc, 5, 1, 60, 60, datos.perfil);
+    agregarEncabezado(doc, `${datos.nombre?.toUpperCase()} ${datos.apellidos?.toUpperCase()}`, datos.ocupacion, 80, 25);
+    agregarPerfil(doc, 10, 75, datos.perfil_profesional);
+    await agregarContacto(doc, 10, 150, datos);
+    agregarEducacion(doc, 80, 60, datos.educacion);
+    agregarLenguajes(doc, 80, 106, datos.idiomas);
+    agregarHabilidades(doc, 80, 140, datos.habilidades);
+    agregarExperiencia(doc, 80, 195, datos.experiencia);
 
     doc.save("plantilla2.pdf");
   } catch (error) {
@@ -46,37 +52,32 @@ async function generarPDF() {
   }
 }
 
-// ================= FUNCIONES =================
-
-async function agregarFoto(doc, x, y, w, h) {
-  const foto = await imgBase64("img/crist.jpg");
+async function agregarFoto(doc: { addImage: (arg0: string, arg1: string, arg2: any, arg3: any, arg4: any, arg5: any) => void; }, x: number, y: number, w: number, h: number, url: any) {
+  const foto = await imgBase64(url || "img/crist.jpg");
   doc.addImage(foto, "PNG", x, y, w, h);
 }
 
-function agregarEncabezado(doc, nombre, titulo, x, y) {
+function agregarEncabezado(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; setTextColor: (arg0: number, arg1: number, arg2: number) => void; text: (arg0: any, arg1: any, arg2: any) => void; }, nombre: string, titulo: any, x: number, y: number) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(32);
   doc.setTextColor(255, 255, 255);
   doc.text(nombre, x, y);
-
   doc.setFont("helvetica", "italic");
   doc.setFontSize(23);
   doc.text(titulo, x, y + 7);
 }
 
-function agregarPerfil(doc, x, y) {
+function agregarPerfil(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; setTextColor: (arg0: number) => void; text: (arg0: string, arg1: any, arg2: any, arg3: { maxWidth: number; } | undefined) => void; }, x: number, y: number, texto: any) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
   doc.setTextColor(0);
   doc.text("PERFIL", x, y);
-
-  const texto = "Soy una persona proactiva, organizada y responsable. Me destaco por el buen trabajo en equipo, toma de decisiones rápidas y manejo bajo presión.";
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
   doc.text(texto, x, y + 6, { maxWidth: 50 });
 }
 
-async function agregarContacto(doc, x, y) {
+async function agregarContacto(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; text: (arg0: string, arg1: any, arg2: any) => void; addImage: (arg0: string, arg1: string, arg2: any, arg3: any, arg4: number, arg5: number) => void; }, x: number, y: number, datos: { telefono: any; correo: any; red: any; direccion: any; }) {
   const tel = await imgBase64("img/telefono.png");
   const correo = await imgBase64("img/correo.png");
   const red = await imgBase64("img/redSocial.png");
@@ -85,24 +86,23 @@ async function agregarContacto(doc, x, y) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
   doc.text("CONTACTO", x, y);
-
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
 
   doc.addImage(tel, "PNG", x, y + 6, 5, 5);
-  doc.text("1234 - 5678", x + 8, y + 10);
+  doc.text(datos.telefono || "", x + 8, y + 10);
 
   doc.addImage(correo, "PNG", x, y + 16, 5, 5);
-  doc.text("alanlu@gmail.com", x + 8, y + 20);
+  doc.text(datos.correo || "", x + 8, y + 20);
 
   doc.addImage(red, "PNG", x, y + 26, 5, 5);
-  doc.text("facebook.com/alanlu", x + 8, y + 30);
+  doc.text(datos.red || "", x + 8, y + 30);
 
   doc.addImage(casa, "PNG", x, y + 36, 5, 5);
-  doc.text("Calle Cualquiera 123,\nCualquier Lugar", x + 8, y + 40);
+  doc.text(datos.direccion || "", x + 8, y + 40);
 }
 
-function agregarSeccionTitulo(doc, titulo, x, y, color = "#5d9795") {
+function agregarSeccionTitulo(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; setTextColor: (arg0: string) => void; text: (arg0: string, arg1: any, arg2: any) => void; }, titulo: string, x: any, y: any, color = "#5d9795") {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
   doc.setTextColor(color);
@@ -111,57 +111,65 @@ function agregarSeccionTitulo(doc, titulo, x, y, color = "#5d9795") {
   doc.setTextColor("#444");
 }
 
-function agregarEducacion(doc, x, y) {
+function agregarEducacion(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; text: (arg0: string, arg1: any, arg2: any) => void; }, x: number, y: number, educacion: any[]) {
   agregarSeccionTitulo(doc, "Educación", x, y);
   y += 6;
-  doc.setFont("helvetica", "bold");
-  doc.text("Universidad Borcelle", x, y);
-  doc.setFont("helvetica", "italic");
-  doc.text("Lic. en Administración, 2018", x, y + 5);
-  y += 12;
-  doc.setFont("helvetica", "bold");
-  doc.text("Colegio La Frida", x, y);
-  doc.setFont("helvetica", "italic");
-  doc.text("Bachiller Bienes y Servicios, 2012", x, y + 5);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+  educacion?.forEach((edu: { titulo: any; institucion: any; fecha: any; }) => {
+    doc.setFont("helvetica", "bold");
+    doc.text(edu.titulo || "", x, y);
+    y += 5;
+    doc.setFont("helvetica", "italic");
+    doc.text(`${edu.institucion || ""}, ${edu.fecha || ""}`, x, y);
+    y += 7;
+  });
 }
 
-function agregarLenguajes(doc, x, y) {
+function agregarLenguajes(doc: { setFont: (arg0: string, arg1: string) => void; text: (arg0: any, arg1: any, arg2: any) => void; }, x: number, y: number, idiomas: any[]) {
   agregarSeccionTitulo(doc, "Lenguajes", x, y);
   y += 6;
   doc.setFont("helvetica", "normal");
-  doc.text("Español Nativo", x, y);
-  doc.text("Inglés Avanzado", x, y + 5);
+  idiomas?.forEach((i: any) => {
+    doc.text(i, x, y);
+    y += 5;
+  });
 }
 
-function agregarHabilidades(doc, x, y) {
+function agregarHabilidades(doc: { setFont: (arg0: string, arg1: string) => void; circle: (arg0: number, arg1: number, arg2: number, arg3: string) => void; text: (arg0: any, arg1: any, arg2: any) => void; }, x: number, y: number, habilidades: any[]) {
   agregarSeccionTitulo(doc, "Habilidades", x, y);
-  const habilidades = [
-    "Manejo de paquete informático",
-    "Software de administración",
-    "Software de diseño",
-    "Redes sociales",
-  ];
   y += 6;
-  habilidades.forEach((hab) => {
+  doc.setFont("helvetica", "normal");
+  habilidades?.forEach((hab: any) => {
     doc.circle(x - 2, y - 1.5, 1.5, "F");
     doc.text(hab, x + 3, y);
     y += 6;
   });
 }
 
-function agregarExperiencia(doc, x, y) {
+function agregarExperiencia(doc: { setFont: (arg0: string, arg1: string) => void; text: (arg0: string, arg1: any, arg2: any) => void; }, x: number, y: number, experiencia: any[]) {
   agregarSeccionTitulo(doc, "Experiencia", x, y);
   y += 6;
-  doc.setFont("helvetica", "bold");
-  doc.text("Asistente de Gerencia", x, y);
-  doc.setFont("helvetica", "italic");
-  doc.text("Ensigna, 2019 - 2022", x, y + 5);
   doc.setFont("helvetica", "normal");
-  doc.text("Gestión administrativa, agenda, archivo.", x, y + 10);
-  doc.setFont("helvetica", "bold");
-  doc.text("Asistente administrativo", x, y + 15);
-  doc.setFont("helvetica", "italic");
-  doc.text("Oficinas del PAN, 2022 - Presente", x, y + 20);
-  doc.setFont("helvetica", "normal");
-  doc.text("Redacción de documentos, organización de agenda", x, y + 25);
+  experiencia?.forEach((exp: { puesto: any; empresa: any; periodo: any; descripcion: any; }) => {
+    doc.setFont("helvetica", "bold");
+    doc.text(exp.puesto || "", x, y);
+    y += 5;
+    doc.setFont("helvetica", "italic");
+    doc.text(`${exp.empresa || ""}, ${exp.periodo || ""}`, x, y);
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.text(exp.descripcion || "", x, y);
+    y += 8;
+  });
+}
+
+async function imgBase64(url: string): Promise<string> {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.readAsDataURL(blob);
+  });
 }
