@@ -2,7 +2,7 @@
 
 export default function About() {
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between p-10 bg-[var(--gris2)] text-[var(--azul1)]">
+    <section id="importancia" className="flex flex-col md:flex-row items-center justify-between p-10 bg-[var(--gris2)] text-[var(--azul1)]">
       
       {/* Texto informativo */}
       <div className="md:w-1/2 space-y-6">

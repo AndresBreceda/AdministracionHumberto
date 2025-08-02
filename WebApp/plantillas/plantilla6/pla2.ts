@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 
+
 interface DatosPDF {
   nombre: string;
   apellidos: string;
@@ -16,14 +17,15 @@ interface DatosPDF {
   inicioEdu: string;
   finEdu: string;
   descEdu: string;
+  logroTitutlo: string;
+  logroDescrip: string;
   idioma: string;
   nivelIdioma: string;
-  foto: File | null;
+  foto: File | undefined;
 }
 
 export async function generarPDF6(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jsPdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const verde = "#5d9795";
@@ -38,12 +40,12 @@ export async function generarPDF6(datos: DatosPDF) {
 
     await agregarFoto(doc, 5, 1, 60, 60, datos.perfil);
     agregarEncabezado(doc, `${datos.nombre?.toUpperCase()} ${datos.apellidos?.toUpperCase()}`, datos.ocupacion, 80, 25);
-    agregarPerfil(doc, 10, 75, datos.perfil_profesional);
-    await agregarContacto(doc, 10, 150, datos);
-    agregarEducacion(doc, 80, 60, datos.educacion);
-    agregarLenguajes(doc, 80, 106, datos.idiomas);
-    agregarHabilidades(doc, 80, 140, datos.habilidades);
-    agregarExperiencia(doc, 80, 195, datos.experiencia);
+    agregarPerfil(doc, 10, 75, datos.perfil);
+    await agregarContacto(doc, 10, 150, datos.correo);
+    agregarEducacion(doc, 80, 60, datos.institucion);
+    agregarLenguajes(doc, 80, 106, datos.idioma);
+    agregarHabilidades(doc, 80, 140, datos.logroDescrip);
+    agregarExperiencia(doc, 80, 195, datos.descExp);
 
     doc.save("plantilla2.pdf");
   } catch (error) {
@@ -77,7 +79,7 @@ function agregarPerfil(doc: { setFont: (arg0: string, arg1: string) => void; set
   doc.text(texto, x, y + 6, { maxWidth: 50 });
 }
 
-async function agregarContacto(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; text: (arg0: string, arg1: any, arg2: any) => void; addImage: (arg0: string, arg1: string, arg2: any, arg3: any, arg4: number, arg5: number) => void; }, x: number, y: number, datos: { telefono: any; correo: any; red: any; direccion: any; }) {
+async function agregarContacto(doc: { setFont: (arg0: string, arg1: string) => void; setFontSize: (arg0: number) => void; text: (arg0: string, arg1: any, arg2: any) => void; addImage: (arg0: string, arg1: string, arg2: any, arg3: any, arg4: number, arg5: number) => void; }, x: number, y: number, datos: { telefono: any; correo: string; red: any; direccion: any; }) {
   const tel = await imgBase64("img/telefono.png");
   const correo = await imgBase64("img/correo.png");
   const red = await imgBase64("img/redSocial.png");

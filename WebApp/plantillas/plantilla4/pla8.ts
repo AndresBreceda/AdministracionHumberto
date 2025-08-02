@@ -1,6 +1,28 @@
-export async function generarPDF4(datos: any) {
+import { jsPDF } from "jspdf";
+
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File | undefined;
+}
+
+export async function generarPDF4(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const imgBase64 = async (file) => {

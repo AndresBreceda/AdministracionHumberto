@@ -23,7 +23,6 @@ interface DatosPDF {
 
 export async function generarPDF8(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const verde = "#4F8A72";
@@ -38,12 +37,12 @@ export async function generarPDF8(datos: DatosPDF) {
     dibujarFondo(doc, grisClaro);
     dibujarPerfil(doc, perfil, 15, 15);
     dibujarNombre(doc, 90, 30, verde, datos);
-    dibujarSobreMi(doc, 10, 75, datos.perfil_profesional);
-    dibujarHabilidades(doc, 10, 102, datos.habilidades);
-    dibujarIdiomas(doc, 10, 150, verde, datos.idiomas);
+    dibujarSobreMi(doc, 10, 75, datos.perfil);
+    dibujarHabilidades(doc, 10, 102, datos.descExp);
+    dibujarIdiomas(doc, 10, 150, verde, datos.idioma);
     dibujarContacto(doc, 10, 175, { telefono, correo, ubicacion, internet }, datos);
-    dibujarExperiencia(doc, 80, 70, verde, datos.experiencia);
-    dibujarEducacion(doc, 80, 160, verde, datos.educacion);
+    dibujarExperiencia(doc, 80, 70, verde, datos.inicioExp);
+    dibujarEducacion(doc, 80, 160, verde, datos.institucion);
 
     doc.save("plantilla4.pdf");
 

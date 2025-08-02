@@ -2,30 +2,33 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../header/hearder";
 import { generarPDF1 } from "../../../plantillas/plantilla1/pla5";
-// import { generarPDF2 } from "../../../plantillas/plantilla2/pla6";
-// import { generarPDF3} from "../../../plantillas/plantilla3/pla7";
-// import { generarPDF4 } from "../../../plantillas/plantilla4/pla8";
-// import { generarPDF5 } from "../../../plantillas/plantilla5/plantilla1";
-// import { generarPDF6 } from "../../../plantillas/plantilla6/pla2";
-// import { generarPDF7 } from "../../../plantillas/plantilla7/pla3";
-// import { generarPDF8 } from "../../../plantillas/plantilla8/pla4";
+import { generarPDF2 } from "../../../plantillas/plantilla2/pla6";
+import { generarPDF3} from "../../../plantillas/plantilla3/pla7";
+import { generarPDF4 } from "../../../plantillas/plantilla4/pla8";
+import { generarPDF5 } from "../../../plantillas/plantilla5/plantilla1";
+import { generarPDF6 } from "../../../plantillas/plantilla6/pla2";
+import { generarPDF7 } from "../../../plantillas/plantilla7/pla3";
+import { generarPDF8 } from "../../../plantillas/plantilla8/pla4";
+import SidePanel from "../sidePanel/sidePanel";
+import { useState } from "react";
 
 
 export default function Formulario() {
   const navigate = useNavigate();
   const location = useLocation();
   const plantillaId = location.state?.plantillaId ?? 1;
+    const [panelAbierto, setPanelAbierto] = useState(false);
 
   const DescargarCv = () => {
       const datos = obtenerDatosDelFormulario(); // <- Tú defines esta función como ya lo haces
   switch (plantillaId) {
     case 1: generarPDF1(datos); break;
-    // case 2: generarPDF2(datos); break;
-    // case 3: generarPDF3(datos); break;
-    // case 4: generarPDF4(datos); break;
+    case 2: generarPDF2(datos); break;
+    case 3: generarPDF3(datos); break;
+    case 4: generarPDF4(datos); break;
     // case 5: generarPDF5(datos); break;
-    // case 6: generarPDF6(datos); break;
-    // case 7: generarPDF7(datos); break;
+    case 6: generarPDF6(datos); break;
+    case 7: generarPDF7(datos); break;
     // case 8: generarPDF8(datos); break;
     default: generarPDF1(datos);
   }
@@ -34,7 +37,8 @@ export default function Formulario() {
 
   return (
     <div>
-      <Header />
+      <Header abrirPanel={() => setPanelAbierto(true)} />
+      <SidePanel abierto={panelAbierto} cerrarPanel={() => setPanelAbierto(false)} />
 
       <div className="bg-[var(--azul2)] py-20 px-10 flex flex-col lg:flex-row justify-between items-start gap-10">
         <div className="text-white lg:w-1/3">
@@ -86,6 +90,14 @@ export default function Formulario() {
           </div>
 
           <div>
+            <h2 className="text-xl font-bold mb-2">Logors</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" id="logro-titulo" placeholder="Titulo del logro" className="input" />
+              <input type="text" id="logro-descripcion" placeholder="descripción" className="input" />
+            </div>
+          </div>
+
+          <div>
             <h2 className="text-xl font-bold mb-2">Habilidades</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input type="text" id="idioma" placeholder="Idioma" className="input" />
@@ -116,7 +128,7 @@ function obtenerDatosDelFormulario() {
   const apellidos = (document.getElementById("apellidos") as HTMLInputElement)?.value || "";
   const telefono = (document.getElementById("telefono") as HTMLInputElement)?.value || "";
   const correo = (document.getElementById("correo") as HTMLInputElement)?.value || "";
-  const foto = (document.getElementById("foto") as HTMLInputElement)?.files?.[0] || null;
+  const foto = (document.getElementById("foto") as HTMLInputElement)?.files?.[0];
 
   const perfil = (document.getElementById("perfil") as HTMLTextAreaElement)?.value || "";
 
@@ -131,6 +143,9 @@ function obtenerDatosDelFormulario() {
   const inicioEdu = (document.getElementById("inicio-edu") as HTMLInputElement)?.value || "";
   const finEdu = (document.getElementById("fin-edu") as HTMLInputElement)?.value || "";
   const descEdu = (document.getElementById("desc-edu") as HTMLInputElement)?.value || "";
+
+  const logroTitutlo = (document.getElementById("logro-titulo") as HTMLInputElement)?.value || "";
+  const logroDescrip = (document.getElementById("logro-descripcion") as HTMLInputElement)?.value || "";
 
   const idioma = (document.getElementById("idioma") as HTMLInputElement)?.value || "";
   const nivelIdioma = (document.getElementById("nivel-idioma") as HTMLInputElement)?.value || "";
@@ -152,6 +167,8 @@ function obtenerDatosDelFormulario() {
     inicioEdu,
     finEdu,
     descEdu,
+    logroTitutlo,
+    logroDescrip,
     idioma,
     nivelIdioma,
   };

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Header from "../header/hearder";
+import SidePanel from "../sidePanel/sidePanel";
 
 export default function Home() {
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
-
+  const [panelAbierto, setPanelAbierto] = useState(false);
 
   useEffect(() => {
     let current = 0;
@@ -30,9 +31,10 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <Header abrirPanel={() => setPanelAbierto(true)} />
+      <SidePanel abierto={panelAbierto} cerrarPanel={() => setPanelAbierto(false)} />
 
-      <div className="flex min-h-screen" id="inicio">
+      <div className="flex min-h-screen" id="inicio" >
         {/* Panel izquierdo */}
         <div className="flex-1 bg-[var(--azul2)] flex flex-col justify-center px-12">
           <h1 className="text-white text-3xl font-extrabold mb-6">

@@ -1,5 +1,25 @@
-// Espera al DOM
-// Eliminado el listener del DOM, ya no necesario en integración con React
+import { jsPDF } from "jspdf";
+
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File;
+}
 
 // Convertir imagen a base64
 async function imgBase64(url: string): Promise<string> {
@@ -13,13 +33,37 @@ async function imgBase64(url: string): Promise<string> {
   });
 }
 
-export async function generarPDF5(datos: any) {
+async function obtenerImagenBase64(file?: File | null): Promise<string> {
+  // Si hay imagen, conviértela a base64
+  if (file instanceof File) {
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject("Error al leer la imagen.");
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Si no hay imagen, usa una por defecto
+  const response = await fetch("/img/person.jpg");
+  const blob = await response.blob();
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject("Error al cargar imagen por defecto.");
+    reader.readAsDataURL(blob);
+  });
+}
+
+
+
+
+export async function generarPDF5(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     // Carga imágenes necesarias
-    const messi = await imgBase64("person.jpg");
+    const fotoCv = await obtenerImagenBase64(datos.foto);
     const telImg = await imgBase64("img/telefono.png");
     const correoImg = await imgBase64("img/correo.png");
     const mapaImg = await imgBase64("img/mapa.png");
@@ -34,7 +78,7 @@ export async function generarPDF5(datos: any) {
     const negro = "#000000";
     const gris = "#666666";
 
-    agregarFoto(doc, messi);
+    agregarFoto(doc, fotoCv);
     agregarEncabezado(doc, azul, negro, datos);
     agregarContacto(doc, telImg, correoImg, mapaImg, socialImg, datos);
     agregarSobreMi(doc, azul, gris, datos);

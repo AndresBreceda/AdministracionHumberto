@@ -1,23 +1,54 @@
-export async function generarPDF2(datos) {
+import { jsPDF } from "jspdf";
+
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  logroTitutlo: string;
+  logroDescrip: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File | undefined;
+}
+
+export async function generarPDF2(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
     const azul = "#003366";
     const gris = "#4d4d4d";
     const negro = "#000000";
 
-    const imgBase64 = async (file) => {
-      if (!file) return "";
+    let fotoBase64 = "";
+    if (datos.foto) {
       const reader = new FileReader();
-      return await new Promise((resolve) => {
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(file);
+      fotoBase64 = await new Promise<string>((resolve) => {
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(datos.foto!);
       });
-    };
+    }
 
-    const trent = await imgBase64(datos.foto);
-    if (trent) doc.addImage(trent, "PNG", 160, 10, 40, 30);
+    doc.setFillColor(gris);
+    doc.rect(0, 0, 70, 297, "F");
+
+    if (fotoBase64) {
+      doc.setFillColor(negro);
+      doc.circle(35, 40, 25, "F");
+      doc.addImage(fotoBase64, "PNG", 10, 15, 50, 50);
+    }
+
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(24);
@@ -127,16 +158,16 @@ export async function generarPDF2(datos) {
     doc.text("Logros", xRight, yRight);
     yRight += 7;
 
-    const logroImg = await imgBase64("img/exito.png");
-    const logros = ["Ejemplo de logro 1", "Ejemplo de logro 2"];
+    // const logroImg = await imgBase64("img/exito.png");
+    const logros = datos.logroDescrip; 
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor(negro);
     for (const l of logros) {
-      if (logroImg) {
-        doc.addImage(logroImg, "PNG", xRight, yRight - 3, 5, 5);
-      }
+
+      doc.addImage("✔", "PNG", xRight, yRight - 3, 5, 5);
+      
       doc.text(l, xRight + 7, yRight, {
         maxWidth: anchoColDer - 10,
         lineHeightFactor: 1.3,

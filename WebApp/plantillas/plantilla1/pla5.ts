@@ -16,9 +16,11 @@ interface DatosPDF {
   inicioEdu: string;
   finEdu: string;
   descEdu: string;
+  logroTitutlo: string;
+  logroDescrip: string;
   idioma: string;
   nivelIdioma: string;
-  foto: File | null;
+  foto: File | undefined;
 }
 
 export async function generarPDF1(data: DatosPDF) {

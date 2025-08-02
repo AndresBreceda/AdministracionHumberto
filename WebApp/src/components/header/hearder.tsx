@@ -1,6 +1,10 @@
 import { TableOfContents } from "lucide-react";
 
-export default function Header() {
+type HeaderProps = {
+  abrirPanel: () => void;
+};
+
+export default function Header({ abrirPanel }: HeaderProps){
   return (
     <header className="bg-[var(--gris1)] w-full px-4 py-2 flex justify-between items-center z-50 fixed">
       {/* Grupo izquierdo: ícono + texto */}
@@ -10,7 +14,9 @@ export default function Header() {
       </a>
 
       {/* Ícono derecho */}
-      <TableOfContents className="w-9 h-9 text-white" />
+      <button onClick={abrirPanel}>
+        <TableOfContents className="w-9 h-9 text-white" />
+      </button>
     </header>
   );
 }

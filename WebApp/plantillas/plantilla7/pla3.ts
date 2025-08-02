@@ -1,9 +1,33 @@
-export async function generarPDF6(datos: any) {
+import { jsPDF } from "jspdf";
+
+interface DatosPDF {
+  nombre: string;
+  apellidos: string;
+  telefono: string;
+  correo: string;
+  perfil: string;
+  puesto: string;
+  empresa: string;
+  inicioExp: string;
+  finExp: string;
+  descExp: string;
+  nivelEstudios: string;
+  institucion: string;
+  inicioEdu: string;
+  finEdu: string;
+  descEdu: string;
+  logroTitutlo: string;
+  logroDescrip: string;
+  idioma: string;
+  nivelIdioma: string;
+  foto: File | undefined;
+}
+
+export async function generarPDF7(datos: DatosPDF) {
   try {
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4");
 
-    const personaImg = await imgBase64(datos.foto || "img/persona.jpg");
+    const personaImg = await imgBase64(datos.foto);
     const interImg = await imgBase64("img/internet.png");
     const correoImg = await imgBase64("img/correo.png");
     const teleImg = await imgBase64("img/telefono.png");
@@ -14,10 +38,10 @@ export async function generarPDF6(datos: any) {
     dibujarContacto(doc, teleImg, correoImg, interImg, ubiImg, 15, 90, datos);
     dibujarLogros(doc, 15, 155, datos);
     dibujarHerramientas(doc, 15, 200, datos);
-    dibujarPerfil(doc, 80, 65, datos.perfil_profesional);
-    dibujarExperiencia(doc, 80, 100, datos.experiencia);
-    dibujarFormacion(doc, 80, 160, datos.educacion);
-    dibujarIdiomas(doc, 80, 200, datos.idiomas);
+    dibujarPerfil(doc, 80, 65, datos.perfil);
+    dibujarExperiencia(doc, 80, 100, datos.empresa);
+    dibujarFormacion(doc, 80, 160, datos.institucion);
+    dibujarIdiomas(doc, 80, 200, datos.idioma);
 
     doc.save("plantilla3.pdf");
   } catch (error) {
@@ -134,7 +158,7 @@ function dibujarIdiomas(doc, x, y, idiomas) {
   });
 }
 
-async function imgBase64(url: string): Promise<string> {
+async function imgBase64(url){
   const response = await fetch(url);
   const blob = await response.blob();
   return new Promise((resolve) => {
