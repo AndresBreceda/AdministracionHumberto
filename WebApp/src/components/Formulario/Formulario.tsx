@@ -1,14 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../header/hearder";
-import { generarPDF1 } from "../../../plantillas/plantilla1/pla5";
-import { generarPDF2 } from "../../../plantillas/plantilla2/pla6";
-import { generarPDF3} from "../../../plantillas/plantilla3/pla7";
-import { generarPDF4 } from "../../../plantillas/plantilla4/pla8";
-import { generarPDF5 } from "../../../plantillas/plantilla5/plantilla1";
-import { generarPDF6 } from "../../../plantillas/plantilla6/pla2";
-import { generarPDF7 } from "../../../plantillas/plantilla7/pla3";
-import { generarPDF8 } from "../../../plantillas/plantilla8/pla4";
+import { generarPDF1 } from "../../../plantillas/plantilla1/plantilla1";
+import { generarPDF2 } from "../../../plantillas/Plantilla2/plantilla2";
+import { generarPDF3} from "../../../plantillas/plantilla3/plantilla3";
+import { generarPDF4 } from "../../../plantillas/plantilla4/plantilla4";
+import { generarPDF5 } from "../../../plantillas/plantilla5/plantilla5";
+import { generarPDF6 } from "../../../plantillas/plantilla6/plantilla6";
+import { generarPDF7 } from "../../../plantillas/plantilla7/plantilla7";
+import { generarPDF8 } from "../../../plantillas/plantilla8/plantila8";
 import SidePanel from "../sidePanel/sidePanel";
 import { useState } from "react";
 

@@ -16,6 +16,8 @@ interface DatosPDF {
   inicioEdu: string;
   finEdu: string;
   descEdu: string;
+  logroTitutlo: string;
+  logroDescrip: string;
   idioma: string;
   nivelIdioma: string;
   foto: File | undefined;
@@ -45,18 +47,18 @@ export async function generarPDF3(datos: DatosPDF) {
     if (foto) {
       doc.setFillColor(blanco);
       doc.circle(105, 25, 20, "F");
-      doc.addImage(foto, "PNG", 85, 5, 40, 40);
+      doc.addImage(foto, "PNG", 15, 25, 40, 40);
     }
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.setTextColor(azul);
-    doc.text(`${datos.nombre} ${datos.apellidos}`, 105, 55, { align: "center" });
+    doc.text(`${datos.nombre} ${datos.apellidos}`, 115, 55, { align: "center" });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
     doc.setTextColor(gris);
-    doc.text(`${datos.puesto} en ${datos.empresa}`, 105, 63, { align: "center" });
+    doc.text(`${datos.puesto} en ${datos.empresa}`, 115, 63, { align: "center" });
 
     let yLeft = 80;
     const xLeft = 10;
@@ -148,7 +150,7 @@ export async function generarPDF3(datos: DatosPDF) {
 
     seccion("Logros");
 
-    const logros = ["Ejemplo de logro 1", "Ejemplo de logro 2"];
+    const logros = [datos.logroDescrip];
 
     doc.setFontSize(10);
     for (const l of logros) {

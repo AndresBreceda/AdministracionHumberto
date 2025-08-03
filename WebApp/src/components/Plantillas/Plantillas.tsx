@@ -11,19 +11,19 @@ export default function Plantillas() {
         <div className="clase">
           <CV_cart
             img="/cv1.png"
-            titulo="Colorido"
-            texto="Un CV lleno de colores y creatividad"
-            tags={['creativo', 'diseño', 'moderno']}
+            titulo="Clásico gris"
+            texto="Un CV elegante y clásico"
+            tags={['Clave', 'Directo', 'Limpio']}
             id={1}
           />
         </div>
 
         <div className="clase">
           <CV_cart
-            img="/cv2.png"
-            titulo="Minimalista"
-            texto="Un diseño limpio, elegante y profesional"
-            tags={['simple', 'profesional', 'ordenado']}
+            img="/cv-no-hecho.png"
+            titulo="CV NO HECHO"
+            texto="Plantilla aún no disponible"
+            tags={['próximamente', 'en desarrollo', 'temporal']}
             id={2}
           />
         </div>
@@ -40,7 +40,7 @@ export default function Plantillas() {
 
         <div className="clase">
           <CV_cart
-            img="/cv1.png"
+            img="/cv4.png"
             titulo="Colorido"
             texto="Un CV lleno de colores y creatividad"
             tags={['creativo', 'diseño', 'moderno']}
@@ -50,40 +50,40 @@ export default function Plantillas() {
 
         <div className="clase">
           <CV_cart
-            img="/cv2.png"
-            titulo="Minimalista"
-            texto="Un diseño limpio, elegante y profesional"
-            tags={['simple', 'profesional', 'ordenado']}
+            img="/cv-no-hecho.png"
+            titulo="CV NO HECHO"
+            texto="Plantilla en construcción"
+            tags={['borrador', 'incompleto', 'próximamente']}
             id={5}
           />
         </div>
 
         <div className="clase">
           <CV_cart
-            img="/cv3.png"
-            titulo="Corporativo"
-            texto="Ideal para perfiles ejecutivos y serios"
-            tags={['formal', 'ejecutivo', 'negocios']}
+            img="/cv-no-hecho.png"
+            titulo="CV NO HECHO"
+            texto="Estamos trabajando en esta plantilla"
+            tags={['espera', 'en proceso', 'pronto disponible']}
             id={6}
           />
         </div>
 
         <div className="clase">
           <CV_cart
-            img="/cv1.png"
-            titulo="Colorido"
-            texto="Un CV lleno de colores y creatividad"
-            tags={['creativo', 'diseño', 'moderno']}
+            img="/cv-no-hecho.png"
+            titulo="CV NO HECHO"
+            texto="Diseño en fase de diseño"
+            tags={['diseño', 'en curso', 'preview']}
             id={7}
           />
         </div>
 
         <div className="clase">
           <CV_cart
-            img="/cv2.png"
-            titulo="Minimalista"
-            texto="Un diseño limpio, elegante y profesional"
-            tags={['simple', 'profesional', 'ordenado']}
+            img="/cv-no-hecho.png"
+            titulo="CV NO HECHO"
+            texto="Prototipo sin finalizar"
+            tags={['prototipo', 'sin estilo', 'plantilla base']}
             id={8}
           />
         </div>

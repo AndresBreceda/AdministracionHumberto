@@ -13,8 +13,8 @@ type LinkItem = {
 
 export default function SidePanel({ abierto, cerrarPanel }: SidePanelProps) {
   const links: LinkItem[] = [
-    { name: "Inicio", path: "/" },
-    { name: "Plantillas", path: "/#Plantillas" },
+    { name: "Inicio", path: "/#inicio" },
+    { name: "Plantillas", path: "/#seccion-plantillas" },
     { name: "La importancia del CV", path: "/#importancia" },
   ];
 
