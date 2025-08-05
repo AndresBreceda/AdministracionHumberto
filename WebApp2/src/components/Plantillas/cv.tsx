@@ -18,7 +18,7 @@ export default function CV_cart({ texto, titulo, img, tags = [], id }: CVCartPro
     };
 
   return (
-    <div className="relative group overflow-hidden rounded-xl shadow-md transition-transform hover:scale-105 hover:shadow-xl cursor-pointer bg-white">
+    <div className="relative group overflow-hidden rounded-xl shadow-md transition-transform hover:scale-105 hover:shadow-xl cursor-pointer bg-white min-h-[400px] flex flex-col">
 
       {/* Imagen */}
       <img src={img} alt={titulo} className="w-auto h-1/2 object-cover" />

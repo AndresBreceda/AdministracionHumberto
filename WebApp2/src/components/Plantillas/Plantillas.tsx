@@ -21,9 +21,9 @@ export default function Plantillas() {
         <div className="clase">
           <CV_cart
             img="/cv2.png"
-            titulo="CV En proceso"
-            texto="Plantilla aún no disponible"
-            tags={['próximamente', 'en desarrollo', 'temporal']}
+            titulo="Lineas"
+            texto="Plantilla con varios colores y con iconos"
+            tags={['Creativa', 'Unica', 'Moderna']}
             id={2}
           />
         </div>
@@ -41,8 +41,8 @@ export default function Plantillas() {
         <div className="clase">
           <CV_cart
             img="/cv4.png"
-            titulo="Colorido"
-            texto="Un CV lleno de colores y creatividad"
+            titulo="Moderno"
+            texto="Un CV moderno"
             tags={['creativo', 'diseño', 'moderno']}
             id={4}
           />
@@ -51,9 +51,9 @@ export default function Plantillas() {
         <div className="clase">
           <CV_cart
             img="/cv5.jpg"
-            titulo="CV NO PROCESO"
-            texto="Plantilla en construcción"
-            tags={['borrador', 'incompleto', 'próximamente']}
+            titulo="Espaciado"
+            texto="Directo al grano sin florituras"
+            tags={['Espacio', 'Directo', 'Limpio']}
             id={5}
           />
         </div>
@@ -61,9 +61,9 @@ export default function Plantillas() {
         <div className="clase">
           <CV_cart
             img="/cv6.jpg"
-            titulo="CV EN PROCESO"
-            texto="Estamos trabajando en esta plantilla"
-            tags={['espera', 'en proceso', 'pronto disponible']}
+            titulo="Dinamico"
+            texto="Una reedición del cv más clasico"
+            tags={['Retro', 'Nuevo', 'Iconos']}
             id={6}
           />
         </div>
